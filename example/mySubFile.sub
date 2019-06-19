@@ -1,0 +1,9 @@
+executable = /afs/cern.ch/user/m/mad/bin/madx
+input = mask/myMask.madx
+arguments = $(ClusterId) $(ProcId)
+output = output/myOut.$(ClusterId).$(ProcId).out
+error = error/myError.$(ClusterId).$(ProcId).err
+log = log/myLog.$(ClusterId).log
+universe = vanilla
++JobFlavour = "espresso"
+queue 
