@@ -37,7 +37,6 @@ class Study():
         >>> ['myScan_0_50', 'myScan_0_55', ...]
         '''
         myList = []
-        print(args)
         for a in itertools.product(*args):
             myList.append((self.name+'_{}'*len(a)).format(*a))
         return myList
