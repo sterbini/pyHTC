@@ -39,6 +39,7 @@ class Study():
         myList = []
         for a in itertools.product(*args):
             myList.append((self.name+'_{}'*len(a)).format(*a))
+        self.jobs_names = myList
         return myList
 
         
