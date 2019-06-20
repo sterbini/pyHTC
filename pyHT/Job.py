@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import subprocess
 
+
 class Job():
     '''
     This is a class to define a single job.
@@ -21,8 +22,7 @@ class Job():
         self.universe = universe
         self.queue = queue
         
-        
-        
+
         
     def submit2str(self):
         myString = '''executable = {}\n'''.format(self.executable)

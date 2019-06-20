@@ -25,7 +25,7 @@ class Study():
         self.queue = queue
 
     
-    def define_study(self, parameters):
+    def define_study(self, *args):
         '''
         This method will define the list of jobs of the study. It therefore takes as arguments the parameters to vary in the study amongs the different jobs. 
         'paramaters' is a multi-dimensionnal array containing the values of the different paramaters. 
