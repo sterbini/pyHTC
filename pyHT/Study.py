@@ -2,15 +2,16 @@ import subprocess
 import numpy as np
 import pandas as pd
 import itertools
+from Job import JobObj
 
-class Study():
+class StudyObj():
     '''
     This class is used to define a study to be submitted to HTCondor. This particularly useful in the case of multiple jobs submissions. 
-    A study will be defined by an executable, a submission file and a set of parameters, corresponding to a single job. Each job is instantiated for the Job class.
+    A study will be defined by an executable, a submission file and a set of parameters, corresponding to a single job. Each job is instantiated from the Job class.
     '''
 
-    def __init__(self, name, executable, submit_file, input_file = "", arguments = "$(ClusterId) $(ProcId)", 
-                 output = "", error = "", log = "", job_flavour = "", universe = "vanilla",
+    def __init__(self, name, executable, submit_file, input_dir = "", arguments = "$(ClusterId) $(ProcId)", 
+                 output_dir = "", error_dir = "", log_dir = "", job_flavour = "", universe = "vanilla",
                  queue = ""):
         self.name = name
         self.executable = executable
@@ -25,7 +26,7 @@ class Study():
         self.queue = queue
 
     
-    def define_study(self, *args):
+    def define_study(self, **kwargs):
         '''
         This method will define the list of jobs of the study. It therefore takes as arguments the parameters to vary in the study amongs the different jobs. 
         'paramaters' is a multi-dimensionnal array containing the values of the different paramaters. 
@@ -37,9 +38,24 @@ class Study():
         >>> ['myScan_0_50', 'myScan_0_55', ...]
         '''
         myList = []
-        for a in itertools.product(*args):
+        self.parameters_keys = kwargs.keys()
+        self.parameters_values = kwargs.values()
+        for a in itertools.product(*self.parameters_values):
             myList.append((self.name+'_{}'*len(a)).format(*a))
         self.jobs_names = myList
-        return myList
+        
+    def get_studyDF(self):
+        '''
+        This method creates a pandas Dataframe containg the information of each job to be submitted
+        '''
+        myColumns = [param for param in myStudy.parameters_keys] + ['Input', 'Output', 'Error', 'Log']
+        myDF = pd.DataFrame(index = self.jobs_names, columns=myColumns)
+        myDF['Input'] = myDF.index + '.in'
+        myDF['Output'] = self.name + '.$(ClusterId).$(ProcId).out'
+        myDF['Error'] = self.name + '.$(ClusterId).$(ProcId).err'
+        myDF['Log'] = self.name + '.$(ClusterId).$(ProcId).log'
+        
+        return myDF
+
 
         

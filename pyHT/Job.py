@@ -3,7 +3,7 @@ import pandas as pd
 import subprocess
 
 
-class Job():
+class JobObj():
     '''
     This is a class to define a single job.
     '''
