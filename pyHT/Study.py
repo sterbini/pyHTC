@@ -50,7 +50,7 @@ class StudyObj():
         This method creates a pandas Dataframe containg the information of each job to be submitted
         '''
         # first to get the values of the parameters
-        myArray = np.zeros([np.prod([len(e) for e in myStudy.parameters_values]), len(myStudy.parameters_keys)])
+        myArray = np.zeros([np.prod([len(e) for e in self.parameters_values]), len(self.parameters_keys)])
         flag = 0
         for a in itertools.product(*self.parameters_values):
             myArray[flag] = a
