@@ -16,11 +16,11 @@ class StudyObj():
         self.name = name
         self.executable = executable
         self.submit_file = submit_file
-        self.input_file = input_file
+        self.input_dir = input_dir
         self.arguments = arguments
-        self.output = output
-        self.error = error
-        self.log = log
+        self.output_dir = output_dir
+        self.error_dir = error_dir
+        self.log_dir = log_dir
         self.job_flavour = job_flavour
         self.universe = universe
         self.queue = queue
@@ -40,6 +40,7 @@ class StudyObj():
         myList = []
         self.parameters_keys = kwargs.keys()
         self.parameters_values = kwargs.values()
+        self.parameters = kwargs
         for a in itertools.product(*self.parameters_values):
             myList.append((self.name+'_{}'*len(a)).format(*a))
         self.jobs_names = myList
@@ -48,14 +49,72 @@ class StudyObj():
         '''
         This method creates a pandas Dataframe containg the information of each job to be submitted
         '''
-        myColumns = [param for param in myStudy.parameters_keys] + ['Input', 'Output', 'Error', 'Log']
+        # first to get the values of the parameters
+        myArray = np.zeros([np.prod([len(e) for e in myStudy.parameters_values]), len(myStudy.parameters_keys)])
+        flag = 0
+        for a in itertools.product(*self.parameters_values):
+            myArray[flag] = a
+            flag+=1
+            
+        # df definition
+        myColumns = [param for param in self.parameters_keys] + ['Input', 'Output', 'Error', 'Log']
         myDF = pd.DataFrame(index = self.jobs_names, columns=myColumns)
-        myDF['Input'] = myDF.index + '.in'
-        myDF['Output'] = self.name + '.$(ClusterId).$(ProcId).out'
-        myDF['Error'] = self.name + '.$(ClusterId).$(ProcId).err'
-        myDF['Log'] = self.name + '.$(ClusterId).$(ProcId).log'
+        
+        # store the parameters values
+        myDF[[param for param in self.parameters_keys]] = myArray
+        
+        # files paths
+        myDF['Input'] = self.input_dir + myDF.index + '.in'
+        myDF['Output'] = self.output_dir + self.name + '.$(ClusterId).$(ProcId).out'
+        myDF['Error'] = self.error_dir + self.name + '.$(ClusterId).$(ProcId).err'
+        myDF['Log'] = self.log_dir + self.name + '.$(ClusterId).$(ProcId).log'
         
         return myDF
-
+    
+    def submit2str(self):
+        '''
+        This methods creates the string that will be writen in a file afterwards. 
+        '''
+        
+        myString = '''executable = {}\n'''.format(self.executable)
+        if self.input_dir:
+            myString += '''input = $(input_file)\n'''
+        if self.arguments:
+            myString += '''arguments = {}\n'''.format(self.arguments)
+        if self.output_dir:
+            myString += '''output = {}.$(ClusterId).$(ProcId).out\n'''.format(self.output_dir+self.name)
+        if self.error_dir:
+            myString += '''error = {}.$(ClusterId).$(ProcId).err\n'''.format(self.error_dir+self.name)
+        if self.log_dir:
+            myString += '''log = {}.$(ClusterId).log\n'''.format(self.log_dir+self.name)
+        if self.universe:
+            myString += '''universe = {}\n'''.format(self.universe)
+        if self.job_flavour:
+            myString += '''+JobFlavour = "{}"\n'''.format(self.job_flavour)
+            
+        myString += '''queue input_file matching files input/{}_*.in'''.format(self.name)
+        return myString
+    
+    
+    def submit2file(self, string):
+        submit_file = open(self.submit_file, "w")
+        submit_file.write(string)
+        submit_file.close()
+        
+    def display_subfile(self):
+        f = open(self.submit_file, 'r')
+        text = f.read()
+        print(text)
+        
+    def submit2HTCondor(self):
+        print(subprocess.check_output(["condor_submit", self.submit_file]))
+        
+    def condor_q(self, nobatch=False, jobID=None):
+        if nobatch: 
+            print(subprocess.check_output(["condor_q","-nobatch"]))
+        elif jobID: 
+            print(subprocess.check_output(["condor_q", jobID]))
+        else: 
+            print(subprocess.check_output(["condor_q"]))
 
         
