@@ -1,0 +1,59 @@
+/******* Definition of the elements *******/
+qfType:QUADRUPOLE, L=1.5, K1:=kf;
+qdType:QUADRUPOLE, L=1.5, K1:=kd;
+
+/******* Definition of the sequence *******/
+fodo:SEQUENCE, REFER=exit, L=10;
+qf: qfType, at=5;
+qd: qdType, at=10;
+ENDSEQUENCE;
+
+/******* Definition of the strengths *******/
+kf=+0.2985;
+kd=-0.2985;
+
+/******* Definition of the beam *******/
+beam, particle=proton, energy=7001;
+
+/******* Activation of the sequence *******/
+use, sequence=fodo;
+
+/******* Operations *******/
+twiss;
+plot, HAXIS=s, VAXIS=betx, bety;
+
+
+/******* Matching *******/
+MATCH, sequence=fodo;
+    GLOBAL, Q1=.25;
+    GLOBAL, Q2=.25;
+    VARY, NAME=kf, STEP=0.0001;
+    VARY, NAME=kd, STEP=0.0001;
+    LMDIF, CALLS=50, TOLERANCE=1E-8;
+ENDMATCH;
+
+PTC_RDT_3s(myFile): macro={
+ ptc_create_universe;
+  ptc_create_layout,model=2,method=6,nst=3, exact=true;
+  PTC_SETSWITCH, debuglevel=0, fringe=true, exact_mis=true;
+  select_ptc_normal, q1=0, q2=0; //fractional tune
+  select_ptc_normal, dq1=1, dq2=1; // chromaticity
+  select_ptc_normal, dq1=2, dq2=2; // second order chrom
+  select_ptc_normal, dq1=3, dq2=3; // third order chrom
+  select_ptc_normal, anhx=1,0,0, anhy=1,0,0;  // 1st order
+  select_ptc_normal, anhx=0,1,0, anhy=0,1,0;
+  select_ptc_normal, haml=4,0,0;
+  select_ptc_normal, eign=2,1;
+  select_ptc_normal, eign=1,2;
+
+  PTC_ALIGN;
+  option, -info;
+  ptc_normal,deltap=dp,closed_orbit,normal,icase=5,no=5;
+
+  write, table=normal_results, file=myFile;
+ ptc_end;
+};
+
+exec, PTC_RDT_3s("/afs/cern.ch/user/a/apoyet/public/pyHT/example/mad_output/myPTCOutput_2.ptc");
+
+stop;

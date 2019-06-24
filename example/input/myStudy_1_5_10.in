@@ -54,6 +54,6 @@ PTC_RDT_3s(myFile): macro={
  ptc_end;
 };
 
-exec, PTC_RDT_3s("/afs/cern.ch/user/a/apoyet/public/pyHT/example/mad_ouput/myPTCOutput.ptc");
+exec, PTC_RDT_3s("/afs/cern.ch/user/a/apoyet/public/pyHT/example/mad_output/myPTCOutput_1.ptc");
 
 stop;
