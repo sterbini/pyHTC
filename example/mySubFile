@@ -1,0 +1,8 @@
+executable = /afs/cern.ch/user/m/mad/bin/madx
+input = $(input_file)
+arguments = $(ClusterId) $(ProcId)
+output = output/myStudy.$(ClusterId).$(ProcId).out
+error = error/myStudy.$(ClusterId).$(ProcId).err
+log = log/myStudy.$(ClusterId).log
+universe = vanilla
+queue input_file matching files input/myStudy_*.in
