@@ -67,7 +67,7 @@ class StudyObj():
         myDF['Input'] = self.input_dir + myDF.index + '.in'
         myDF['Output'] = self.output_dir + self.name + '.$(ClusterId).$(ProcId).out'
         myDF['Error'] = self.error_dir + self.name + '.$(ClusterId).$(ProcId).err'
-        myDF['Log'] = self.log_dir + self.name + '.$(ClusterId).$(ProcId).log'
+        myDF['Log'] = self.log_dir + self.name + '.$(ClusterId).log'
         
         return myDF
     
