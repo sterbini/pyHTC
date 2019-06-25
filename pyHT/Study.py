@@ -107,7 +107,12 @@ class StudyObj():
         print(text)
         
     def submit2HTCondor(self):
-        print(subprocess.check_output(["condor_submit", self.submit_file]))
+        myString = subprocess.check_output(["condor_submit", self.submit_file])
+        print(myString)
+        myString = myString[:-2]
+        count = [int(s) for s in a[:-2].split() if s.isdigit()]
+        self.number_jobs = count[0]
+        self.clusterID = count[1]
         
     def condor_q(self, nobatch=False, jobID=None):
         if nobatch: 
