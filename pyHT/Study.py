@@ -110,7 +110,7 @@ class StudyObj():
         myString = subprocess.check_output(["condor_submit", self.submit_file])
         print(myString)
         myString = myString[:-2]
-        count = [int(s) for s in a[:-2].split() if s.isdigit()]
+        count = [int(s) for s in myString[:-2].split() if s.isdigit()]
         self.number_jobs = count[0]
         self.clusterID = count[1]
         
