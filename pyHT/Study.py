@@ -2,7 +2,7 @@ import subprocess
 import numpy as np
 import pandas as pd
 import itertools
-from Job import JobObj
+#from Job import JobObj
 
 class StudyObj():
     '''
@@ -55,7 +55,7 @@ class StudyObj():
         for a in itertools.product(*self.parameters_values):
             myArray[flag] = a
             flag+=1
-            
+        
         # df definition
         myColumns = [param for param in self.parameters_keys] + ['Input', 'Output', 'Error', 'Log']
         myDF = pd.DataFrame(index = self.jobs_names, columns=myColumns)
@@ -64,10 +64,11 @@ class StudyObj():
         myDF[[param for param in self.parameters_keys]] = myArray
         
         # files paths
+        myDF['ProcID'] = [str(e) for e in range(self.number_jobs)]
         myDF['Input'] = self.input_dir + myDF.index + '.in'
-        myDF['Output'] = self.output_dir + self.name + '.$(ClusterId).$(ProcId).out'
-        myDF['Error'] = self.error_dir + self.name + '.$(ClusterId).$(ProcId).err'
-        myDF['Log'] = self.log_dir + self.name + '.$(ClusterId).log'
+        myDF['Output'] = self.output_dir + self.name + '.' + str(self.clusterID) + '.' + myDF['ProcID'] + '.out'
+        myDF['Error'] = self.error_dir + self.name + '.' + str(self.clusterID) + '.' + myDF['ProcID'] + '.err'
+        myDF['Log'] = self.log_dir + self.name + '.{}.log'.format(self.clusterID)
         
         return myDF
     
