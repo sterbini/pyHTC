@@ -25,22 +25,29 @@ class StudyObj():
         self.universe = universe
         self.queue = queue
 
-    
-    def define_study(self, **kwargs):
+        
+    def define_study(self, param):
         '''
         This method will define the list of jobs of the study. It therefore takes as arguments the parameters to vary in the study amongs the different jobs. 
-        'paramaters' is a multi-dimensionnal array containing the values of the different paramaters. 
+        'param' is a dictionnary containing the values of the different paramaters. 
+        The method does not return anything but store the parameters, and the jobs names into the study attributes. 
 
         **** EXAMPLE ****
         The study is called 'myScan'. And it will scan two parameters Temp and Press from 0 to 10 for Temp and 50 to 60 for Press.
 
-        define_study(np.array([[0, 2, 4, 6, 8, 10], [50, 55, 60]]))
-        >>> ['myScan_0_50', 'myScan_0_55', ...]
+        The user shall first define the scan and store the values in a dictionnary: 
+
+        myParam = {'Temp' : [0, 5, 10], 'Press' : [50, 55, 60]}
+
+        define_study(myParam)
+
+        print(myScan.jobs_names)
+        >>> [myScan_0_50, myScan_0_55, ...]
         '''
         myList = []
-        self.parameters_keys = kwargs.keys()
-        self.parameters_values = kwargs.values()
-        self.parameters = kwargs
+        self.parameters_keys = param.keys()
+        self.parameters_values = param.values()
+        self.parameters = param
         for a in itertools.product(*self.parameters_values):
             myList.append((self.name+'_{}'*len(a)).format(*a))
         self.jobs_names = myList
