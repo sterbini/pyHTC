@@ -1,6 +1,6 @@
-# pyHT
+# pyHTC
 
-pyHT is a python package to ease the submission of jobs to the HTCondor cluster. It also provides functions to help in the organization of the parameters of each job, storing the data in convinient pandas DataFrames, allowing the user to find out which job corresponds to what study. 
+pyHTC is a python package to ease the submission of jobs to the HTCondor cluster. It also provides functions to help in the organization of the parameters of each job, storing the data in convinient pandas DataFrames, allowing the user to find out which job corresponds to what study. 
 
 ## Installation
 
