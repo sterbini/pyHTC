@@ -10,10 +10,11 @@ class StudyObj():
     A study will be defined by an executable, a submission file and a set of parameters, corresponding to a single job. Each job is instantiated from the Job class.
     '''
 
-    def __init__(self, name, executable, submit_file, input_dir = "", arguments = "$(ClusterId) $(ProcId)", 
+    def __init__(self, name, path, executable, submit_file, input_dir = "", arguments = "$(ClusterId) $(ProcId)", 
                  output_dir = "", error_dir = "", log_dir = "", job_flavour = "", universe = "vanilla",
                  queue = ""):
         self.name = name
+        self.path = path
         self.executable = executable
         self.submit_file = submit_file
         self.input_dir = input_dir
@@ -100,7 +101,7 @@ class StudyObj():
         if self.job_flavour:
             myString += '''+JobFlavour = "{}"\n'''.format(self.job_flavour)
             
-        myString += '''queue input_file matching files input/{}_*.in'''.format(self.name)
+        myString += '''queue input_file matching files {0}/input/{1}_*.in'''.format(self.path, self.name)
         return myString
     
     
