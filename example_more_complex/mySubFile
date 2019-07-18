@@ -1,0 +1,7 @@
+executable = /afs/cern.ch/user/a/apoyet/public/pyHTC/example_more_complex/myExecutable.sh
+arguments = $(input_file)
+output = output/myStudy.$(ClusterId).$(ProcId).out
+error = error/myStudy.$(ClusterId).$(ProcId).err
+log = log/myStudy.$(ClusterId).log
+universe = vanilla
+queue input_file matching files /afs/cern.ch/user/a/apoyet/public/pyHTC/example_more_complex/input/myStudy_*.in
