@@ -25,8 +25,8 @@ plot, HAXIS=s, VAXIS=betx, bety;
 
 /******* Matching *******/
 MATCH, sequence=fodo;
-    GLOBAL, Q1=.25;
-    GLOBAL, Q2=.25;
+    GLOBAL, Q1=0.25;
+    GLOBAL, Q2=0.26;
     VARY, NAME=kf, STEP=0.0001;
     VARY, NAME=kd, STEP=0.0001;
     LMDIF, CALLS=50, TOLERANCE=1E-8;
@@ -54,6 +54,6 @@ PTC_RDT_3s(myFile): macro={
  ptc_end;
 };
 
-exec, PTC_RDT_3s("/afs/cern.ch/user/a/apoyet/public/pyHT/example/mad_output/myPTCOutput_2.ptc");
+exec, PTC_RDT_3s('/afs/cern.ch/user/a/apoyet/public/pyHTC/example/mad_output/ptc_out_0.25_0.26.pkl');
 
 stop;

@@ -5,4 +5,4 @@ output = output/myStudy.$(ClusterId).$(ProcId).out
 error = error/myStudy.$(ClusterId).$(ProcId).err
 log = log/myStudy.$(ClusterId).log
 universe = vanilla
-queue input_file matching files input/myStudy_*.in
+queue input_file matching files /afs/cern.ch/user/a/apoyet/public/pyHTC/example/input/myStudy_*.in

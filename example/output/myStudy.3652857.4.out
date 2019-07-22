@@ -1,0 +1,226 @@
+
+  ++++++++++++++++++++++++++++++++++++++++++++
+  +     MAD-X 5.05.01  (64 bit, Linux)       +
+  + Support: mad@cern.ch, http://cern.ch/mad +
+  + Release   date: 2019.06.07               +
+  + Execution date: 2019.07.22 14:39:57      +
+  ++++++++++++++++++++++++++++++++++++++++++++
+/******* Definition of the elements *******/
+
+qfType:QUADRUPOLE, L=1.5, K1:=kf;
+
+qdType:QUADRUPOLE, L=1.5, K1:=kd;
+
+
+
+/******* Definition of the sequence *******/
+
+fodo:SEQUENCE, REFER=exit, L=10;
+
+qf: qfType, at=5;
+
+qd: qdType, at=10;
+
+ENDSEQUENCE;
+
+
+
+/******* Definition of the strengths *******/
+
+kf=+0.2985;
+
+kd=-0.2985;
+
+
+
+/******* Definition of the beam *******/
+
+beam, particle=proton, energy=7001;
+
+
+
+/******* Activation of the sequence *******/
+
+use, sequence=fodo;
+
+
+
+/******* Operations *******/
+
+twiss;
+
+enter Twiss module
+  
+iteration:   1 error:   0.000000E+00 deltap:   0.000000E+00
+orbit:   0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00  0.000000E+00
+
+++++++ table: summ
+
+            length             orbit5               alfa            gammatr 
+                10                 -0                  0                  0 
+
+                q1                dq1            betxmax              dxmax 
+      0.4877944671       -8.265035446        208.1244543                  0 
+
+             dxrms             xcomax             xcorms                 q2 
+                 0                  0                  0       0.4877944671 
+
+               dq2            betymax              dymax              dyrms 
+      -8.265035446        208.1244543                  0                  0 
+
+            ycomax             ycorms             deltap            synch_1 
+                 0                  0                  0                  0 
+
+           synch_2            synch_3            synch_4            synch_5 
+                 0                  0                  0                  0 
+
+            nflips 
+                 0 
+plot, HAXIS=s, VAXIS=betx, bety;
+
+Plot - default table plotted: twiss
+
+ GXPLOT-X11  1.50 initialized
+
+ plot number =            1
+
+
+
+
+/******* Matching *******/
+
+MATCH, sequence=fodo;
+
+START MATCHING
+
+number of sequences: 1
+sequence name: fodo
+    GLOBAL, Q1=0.3;
+
+    GLOBAL, Q2=0.28;
+
+    VARY, NAME=kf, STEP=0.0001;
+
+    VARY, NAME=kd, STEP=0.0001;
+
+    LMDIF, CALLS=50, TOLERANCE=1E-8;
+
+number of variables:    2
+user given constraints: 1
+total constraints:      2
+
+START LMDIF:
+
+Initial Penalty Function =   0.78445302E+01
+
+
+call:       4   Penalty function =   0.38932300E+01
+call:       7   Penalty function =   0.15641130E+01
+call:      10   Penalty function =   0.67352435E-01
+call:      13   Penalty function =   0.99290758E-04
+call:      16   Penalty function =   0.21903100E-09
+ ++++++++++ LMDIF ended: converged successfully
+call:      16   Penalty function =   0.21903100E-09
+ENDMATCH;
+
+
+MATCH SUMMARY
+
+Node_Name                  Constraint   Type  Target Value       Final Value        Penalty
+--------------------------------------------------------------------------------------------------
+Global constraint:         q1           4     3.00000000E-01     3.00001238E-01     1.53293930E-10
+Global constraint:         q2           4     2.80000000E-01     2.80000811E-01     6.57370701E-11
+
+
+Final Penalty Function =   2.19031000e-10
+
+
+
+
+
+Variable                 Final Value  Initial Value Lower Limit  Upper Limit 
+--------------------------------------------------------------------------------
+kf                        2.40187e-01  2.98500e-01 -1.00000e+20  1.00000e+20
+kd                       -2.31562e-01 -2.98500e-01 -1.00000e+20  1.00000e+20
+
+END MATCH SUMMARY
+
+VARIABLE "TAR" SET TO   2.19031000e-10
+
+
+PTC_RDT_3s(myFile): macro={
+
+ ptc_create_universe;
+
+  ptc_create_layout,model=2,method=6,nst=3, exact=true;
+
+  PTC_SETSWITCH, debuglevel=0, fringe=true, exact_mis=true;
+
+  select_ptc_normal, q1=0, q2=0; //fractional tune
+
+  select_ptc_normal, dq1=1, dq2=1; // chromaticity
+
+  select_ptc_normal, dq1=2, dq2=2; // second order chrom
+
+  select_ptc_normal, dq1=3, dq2=3; // third order chrom
+
+  select_ptc_normal, anhx=1,0,0, anhy=1,0,0;  // 1st order
+
+  select_ptc_normal, anhx=0,1,0, anhy=0,1,0;
+
+  select_ptc_normal, haml=4,0,0;
+
+  select_ptc_normal, eign=2,1;
+
+  select_ptc_normal, eign=1,2;
+
+
+
+  PTC_ALIGN;
+
+  option, -info;
+
+  ptc_normal,deltap=dp,closed_orbit,normal,icase=5,no=5;
+
+
+
+  write, table=normal_results, file=myFile;
+
+ ptc_end;
+
+};
+
+
+
+exec, PTC_RDT_3s(/afs/cern.ch/user/a/apoyet/public/pyHTC/example/mad_output/ptc_out_0.3_0.28.pkl);
+
+Determined SECTOR NMUL MAX :  0
+ MAD-X Beam Parameters
+                  Energy : 0.700100E+04
+          Kinetic Energy : 0.700006E+04
+      Particle Rest Mass : 0.938272E+00
+                Momentum : 0.700100E+04
+ Setting MADx with 
+     energy           7001.0000000000000     
+     method                   6
+     Num. of steps            3
+     charge           1.0000000000000000     
+  Length of machine:    10.000000000000000     
+ The machine is a RING
+ ------------------------------------ PTC Survey ------------------------------------
+ Before start:    0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ Before   end:    0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ After  start:    0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ After    end:    0.0000000000000000        0.0000000000000000        10.000000000000000     
+ Closed orbit:    0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000        0.0000000000000000     
+++++++ warning: cannot open output file: /
+
+
+stop;
+
+  Number of warnings: 2
+2 in C and 0 in Fortran
+
+  ++++++++++++++++++++++++++++++++++++++++++++
+  +          MAD-X finished normally         +
+  ++++++++++++++++++++++++++++++++++++++++++++
