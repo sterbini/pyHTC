@@ -27,7 +27,7 @@ class StudyObj():
         self.queue = queue        
 
         
-    def define_study(self, param):
+    def define_study(self, myParam):
         '''
         This method will define the list of jobs of the study. It therefore takes as arguments the parameters to vary in the study amongs the different jobs. 
         'param' is a dictionnary containing the values of the different paramaters. 
