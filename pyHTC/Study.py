@@ -53,7 +53,7 @@ class StudyObj():
             self.parameters = myParam
             for i in itertools.product(*myParam.values()):
                 myList.append(i)
-                myIndex.append((myName+'_{}'*len(i)).format(*i))
+                myIndex.append((self.name+'_{}'*len(i)).format(*i))
             myDF = pd.DataFrame(myList, columns=myParam.keys(), index=myIndex)
             self.jobs_names = myIndex
             return myDF
