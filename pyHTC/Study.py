@@ -24,7 +24,7 @@ class StudyObj():
         self.log_dir = log_dir
         self.job_flavour = job_flavour
         self.universe = universe
-        self.queue = queue
+        self.queue = queue        
 
         
     def define_study(self, param):
@@ -45,13 +45,24 @@ class StudyObj():
         print(myScan.jobs_names)
         >>> [myScan_0_50, myScan_0_55, ...]
         '''
-        myList = []
-        self.parameters_keys = param.keys()
-        self.parameters_values = param.values()
-        self.parameters = param
-        for a in itertools.product(*self.parameters_values):
-            myList.append((self.name+'_{}'*len(a)).format(*a))
-        self.jobs_names = myList
+        if type(myParam)==dict:
+            myList = []
+            myIndex = []
+            self.parameters_keys = myParam.keys()
+            self.parameters_values = myParam.values()
+            self.parameters = myParam
+            for i in itertools.product(*myParam.values()):
+                myList.append(i)
+                myIndex.append((myName+'_{}'*len(i)).format(*i))
+            myDF = pd.DataFrame(myList, columns=myParam.keys(), index=myIndex)
+            self.jobs_names = myIndex
+            return myDF
+        if type(myParam)==pd.DataFrame:
+            self.parameters_keys = myParam.columns.values
+            self.parameters_values = [np.unique(arr) for arr in np.transpose(myParam.values)]
+            self.parameters = myParam
+            self.jobs_names = myParam.index.values
+            return myParam
         
     def get_studyDF(self):
         '''
