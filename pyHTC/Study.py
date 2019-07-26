@@ -124,10 +124,10 @@ class StudyObj():
     def display_subfile(self):
         f = open(self.submit_file, 'r')
         text = f.read()
-        print(text)
+        print(str(text, 'utf-8'))
         
     def submit2HTCondor(self):
-        myString = subprocess.check_output(["condor_submit", self.submit_file])
+        myString = str(subprocess.check_output(["condor_submit", self.submit_file]),'utf-8')
         print(myString)
         myString = myString[:-2]
         count = [int(s) for s in myString.split() if s.isdigit()]
