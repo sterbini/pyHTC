@@ -124,7 +124,7 @@ class StudyObj():
     def display_subfile(self):
         f = open(self.submit_file, 'r')
         text = f.read()
-        print(str(text, 'utf-8'))
+        print(text)
         
     def submit2HTCondor(self):
         myString = str(subprocess.check_output(["condor_submit", self.submit_file]),'utf-8')
@@ -136,10 +136,10 @@ class StudyObj():
         
     def condor_q(self, nobatch=False, jobID=None):
         if nobatch: 
-            print(subprocess.check_output(["condor_q","-nobatch"]))
+            print(str(subprocess.check_output(["condor_q","-nobatch"]),'utf-8'))
         elif jobID: 
-            print(subprocess.check_output(["condor_q", jobID]))
+            print(str(subprocess.check_output(["condor_q", jobID]),'utf-8'))
         else: 
-            print(subprocess.check_output(["condor_q"]))
+            print(str(subprocess.check_output(["condor_q"]),'utf-8'))
 
         
