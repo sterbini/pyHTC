@@ -90,6 +90,13 @@ class StudyObj():
         myDF['Log'] = self.log_dir + self.name + '.{}.log'.format(self.clusterID)
         
         return myDF
+
+    def complete_studyDF(self):
+        self.parameters['ProcID'] = [str(e) for e in range(self.number_jobs)]
+        self.parameters['Input'] = 'input/' + self.name + '_'+ self.parameters.index + '.in'
+        self.parameters['Output'] = self.output_dir + self.name + '.' + str(self.clusterID) + '.' + self.parameters['ProcID'] + '.out'
+        self.parameters['Error'] = self.error_dir + self.name + '.' + str(self.clusterID) + '.' + self.parameters['ProcID'] + '.err'
+        self.parameters['Log'] = self.log_dir + self.name + '.{}.log'.format(self.clusterID)
     
     def submit2str(self):
         '''
