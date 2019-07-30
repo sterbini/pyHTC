@@ -97,6 +97,7 @@ class StudyObj():
         self.parameters['Output'] = self.output_dir + self.name + '.' + str(self.clusterID) + '.' + self.parameters['ProcID'] + '.out'
         self.parameters['Error'] = self.error_dir + self.name + '.' + str(self.clusterID) + '.' + self.parameters['ProcID'] + '.err'
         self.parameters['Log'] = self.log_dir + self.name + '.{}.log'.format(self.clusterID)
+        self.parameters['Status'] = 'Running'
     
     def submit2str(self):
         '''
@@ -148,5 +149,23 @@ class StudyObj():
             print(str(subprocess.check_output(["condor_q", jobID]),'utf-8'))
         else: 
             print(str(subprocess.check_output(["condor_q"]),'utf-8'))
+
+    def check_jobs_status(self):
+        for name in self.parameters.index():
+            output = open(self.parameters['Output'].loc[i],"r")
+            out_content = output.read()
+
+            error = open(self.parameters['Error'].loc[i],"r")
+            err_content = output.read()
+            if out_content == "":
+                self.parameters['Status'].loc[i] = 'Running'
+            else:
+                if err_content == "":
+                    self.parameters['Status'] = 'Complete'
+                else: 
+                    self.parameters['Status'] = 'Failed'
+            output.close()
+            error.close()
+
 
         
