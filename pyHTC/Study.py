@@ -151,7 +151,7 @@ class StudyObj():
             print(str(subprocess.check_output(["condor_q"]),'utf-8'))
 
     def check_jobs_status(self):
-        for name in self.parameters.index():
+        for name in self.parameters.index:
             output = open(self.parameters['Output'].loc[i],"r")
             out_content = output.read()
 
