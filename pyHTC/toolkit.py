@@ -27,3 +27,11 @@ def unmask(myFile, myMaskedParam, myParams, myOutMask_path):
     text_file = open(myOutMask_path,"w")
     text_file.write(myUnmaskedFile)
     text_file.close()
+
+def cross_studies(newDF, oldDF):
+    x = pd.concat([oldDF,newDF])
+    y = x.drop_duplicates(keep=False, inplace=False)
+    myFilteredDF = newDF.filter(items=y.index, axis=0)
+    myElimDF = newDF.loc[~newDF.index.isin(y.index)]
+    myElimDF = myElimDF.assign(Old_Index = list(oldDF.index))
+    return myFilteredDF, myElimDF
