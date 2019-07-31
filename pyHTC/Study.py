@@ -167,5 +167,8 @@ class StudyObj():
             output.close()
             error.close()
 
-
+def retrieve_results(self, oldStudy, oldDF):
+    df = oldStudy.parameters.copy()
+    df.index = oldDF.index
+    self.parameters = pd.concat([self.parameters,df])
         
