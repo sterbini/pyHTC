@@ -60,7 +60,7 @@ class StudyObj():
         if type(myParam)==pd.DataFrame:
             self.parameters_keys = myParam.columns.values
             self.parameters_values = [np.unique(arr) for arr in np.transpose(myParam.values)]
-            self.parameters = myParam
+            self.parameters = myParam.copy()
             self.jobs_names = myParam.index.values
             return myParam
         
