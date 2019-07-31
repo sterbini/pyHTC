@@ -1,6 +1,6 @@
 import re
 import numpy as np
-import pandas as pdd
+import pandas as pd
 import os
 
 def getMaskedParameterList(myFile, tag='MASKED_', printLine=False):
