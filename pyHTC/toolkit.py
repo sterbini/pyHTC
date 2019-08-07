@@ -3,6 +3,21 @@ import numpy as np
 import pandas as pd
 import os
 
+def prepare_work_dir(input_dir = 'input', output_dir = 'output', log_dir = 'log', error_dir = 'error'):
+    '''
+    This simple creates the different folder necessary to the submission to HTCondor. 
+    Default values are given so the user can simply proceed with the submission process.
+    Those defaut values are consistent with the rest of the pyHTC package. 
+    '''
+    if input_dir:
+        os.mkdir(input_dir)
+    if output_dir:
+        os.mkdir(output_dir)
+    if log_dir:
+        os.mkdir(log_dir)
+    if error_dir:
+        os.mkdir(error_dir)
+
 def getMaskedParameterList(myFile, tag='MASKED_', printLine=False):
     '''
     It returns the words strarting with tag='MASKED_' in myFile.
