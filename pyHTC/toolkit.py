@@ -51,3 +51,11 @@ def cross_studies(newDF, oldDF):
     myElimDF = newDF.loc[~newDF.index.isin(y.index)]
     myElimDF = myElimDF.assign(Old_Index = list(oldDF.index))
     return myFilteredDF, myElimDF
+
+def combine_dict(name, myDict):
+    myList = []
+    myIndex = []
+    for i in itertools.product(*myDict.values()):
+        myList.append(i)
+        myIndex.append((name+'_{}'*len(i)).format(*i))
+    return pd.DataFrame(myList, columns=myDict.keys(), index=myIndex)
