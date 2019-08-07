@@ -31,7 +31,7 @@ def getMaskedParameterList(myFile, tag='MASKED_', printLine=False):
             if printLine: print(line)
             myList.append(i)
     searchfile.close()
-    return np.unique(myList);
+    return np.unique(myList)
 
 def unmask(myFile, myMaskedParam, myParams, myOutMask_path):
     searchFile = open(myFile, 'r')
