@@ -2,7 +2,7 @@ import subprocess
 import numpy as np
 import pandas as pd
 import itertools
-#from Job import JobObj
+import os
 
 class StudyObj():
     '''
@@ -10,8 +10,8 @@ class StudyObj():
     A study will be defined by an executable, a submission file and a set of parameters, corresponding to a single job. Each job is instantiated from the Job class.
     '''
 
-    def __init__(self, name, path, executable, submit_file, input_dir = "", arguments = "$(ClusterId) $(ProcId)", 
-                 output_dir = "", error_dir = "", log_dir = "", job_flavour = "", universe = "vanilla",
+    def __init__(self, name="myStudy", path=os.getcwd(), executable="exe.sh", submit_file="muSubmit.sub", input_dir = "input/", arguments = "$(input_file)", 
+                 output_dir = "output/", error_dir = "erro/", log_dir = "log/", job_flavour = "espresso", universe = "vanilla",
                  queue = ""):
         self.name = name
         self.path = path
