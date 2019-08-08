@@ -10,13 +10,13 @@ def prepare_work_dir(input_dir = 'input', output_dir = 'output', log_dir = 'log'
     Default values are given so the user can simply proceed with the submission process.
     Those defaut values are consistent with the rest of the pyHTC package. 
     '''
-    if input_dir:
+    if input_dir and os.path.exists(input_dir)==False:
         os.mkdir(input_dir)
-    if output_dir:
+    if output_dir and os.path.exists(output_dir)==False:
         os.mkdir(output_dir)
-    if log_dir:
+    if log_dir and os.path.exists(log_dir)==False:
         os.mkdir(log_dir)
-    if error_dir:
+    if error_dir and os.path.exists(error_dir)==False:
         os.mkdir(error_dir)
 
 def getMaskedParameterList(myFile, tag='MASKED_', printLine=False):
