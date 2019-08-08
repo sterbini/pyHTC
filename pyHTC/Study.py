@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import itertools
 import os
+from pprint import pprint
 
 class StudyObj():
     '''
@@ -11,7 +12,7 @@ class StudyObj():
     '''
 
     def __init__(self, name="myStudy", path=os.getcwd(), executable="exe.sh", submit_file="muSubmit.sub", input_dir = "input/", arguments = "$(input_file)", 
-                 output_dir = "output/", error_dir = "erro/", log_dir = "log/", job_flavour = "espresso", universe = "vanilla",
+                 output_dir = "output/", error_dir = "error/", log_dir = "log/", job_flavour = "espresso", universe = "vanilla",
                  queue = ""):
         self.name = name
         self.path = path
@@ -170,4 +171,7 @@ class StudyObj():
         df = oldStudy.parameters.copy()
         df.index = oldDF.index
         self.parameters = pd.concat([self.parameters,df])
+
+    def describe(self):
+        pprint(vars(self))
         
