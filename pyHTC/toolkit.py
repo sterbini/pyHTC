@@ -2,6 +2,7 @@ import re
 import numpy as np
 import pandas as pd
 import os
+import itertools
 
 def prepare_work_dir(input_dir = 'input', output_dir = 'output', log_dir = 'log', error_dir = 'error'):
     '''
