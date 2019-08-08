@@ -57,11 +57,12 @@ class StudyObj():
                 myIndex.append((self.name+'_{}'*len(i)).format(*i))
             myDF = pd.DataFrame(myList, columns=myParam.keys(), index=myIndex)
             self.jobs_names = myIndex
+            self.DF = myDF
             return myDF
         if type(myParam)==pd.DataFrame:
             self.parameters_keys = myParam.columns.values
             self.parameters_values = [np.unique(arr) for arr in np.transpose(myParam.values)]
-            self.parameters = myParam.copy()
+            self.DF = myParam.copy()
             self.jobs_names = myParam.index.values
             return myParam
         
