@@ -172,6 +172,12 @@ class StudyObj():
         df.index = oldDF.index
         self.parameters = pd.concat([self.parameters,df])
 
-    def describe(self):
-        pprint(vars(self))
+    def describe(self, in_df = False):
+        if in_df:
+            study_dict = vars(self)
+            study_df = pd.DataFrame.from_dict(study_dict, orient='index')
+            return study_df
+        else:
+            pprint(vars(self))
+
         
