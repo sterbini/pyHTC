@@ -1,0 +1,8 @@
+print('###### MY GROCERIES LIST ######\n')
+print('DAY = %MASKED_day\n')
+print('==========================\n')
+print('Vegetables : %MASKED_vegetables\n')
+print('==========================\n')
+print('Meat : %MASKED_meat\n')
+print('==========================\n')
+print('Chocolate for my PhD Student')

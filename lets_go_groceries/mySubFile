@@ -1,0 +1,7 @@
+executable = /afs/cern.ch/user/a/apoyet/public/pyHTC/lets_go_groceries/groceries_list_generator.sh
+arguments = $(input_file)
+output = output/week2.$(ClusterId).$(ProcId).out
+error = error/week2.$(ClusterId).$(ProcId).err
+log = log/week2.$(ClusterId).log
+universe = vanilla
+queue input_file matching files /afs/cern.ch/user/a/apoyet/public/pyHTC/lets_go_groceries/input/week2_*.in

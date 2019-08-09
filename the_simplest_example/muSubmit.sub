@@ -1,0 +1,8 @@
+executable = exe.sh
+arguments = $(input_file)
+output = output/times2.$(ClusterId).$(ProcId).out
+error = error/times2.$(ClusterId).$(ProcId).err
+log = log/times2.$(ClusterId).log
+universe = vanilla
++JobFlavour = "espresso"
+queue input_file matching files /afs/cern.ch/user/a/apoyet/public/pyHTC/the_simplest_example/input/times2_*.in

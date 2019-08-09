@@ -1,0 +1,8 @@
+print('###### MY GROCERIES LIST ######\n')
+print('DAY = Sunday\n')
+print('==========================\n')
+print('Vegetables : Zucchini\n')
+print('==========================\n')
+print('Meat : Duck\n')
+print('==========================\n')
+print('Chocolate for my PhD Student')
