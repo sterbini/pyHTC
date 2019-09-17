@@ -128,7 +128,6 @@ class StudyObj():
         myString += '''queue input_file matching files {0}/input/{1}_*.in'''.format(self.path, self.name)
         return myString
     
-    
     def submit2file(self, string):
         submit_file = open(self.submit_file, "w")
         submit_file.write(string)
@@ -171,6 +170,7 @@ class StudyObj():
                     self.parameters['Status'] = 'Failed'
             output.close()
             error.close()
+            
     def retrieve_results(self, oldStudy, oldDF):
         df = oldStudy.parameters.copy()
         df.index = oldDF.index
@@ -183,5 +183,3 @@ class StudyObj():
             return study_df
         else:
             pprint(vars(self))
-
-        
