@@ -6,12 +6,12 @@ pyHTC is a python package to ease the submission of jobs to the HTCondor cluster
 
 To install the package, you might use the command: 
 ```
-pip install --user git+https://github.com/apoyet/pyHTC.git
+pip install --user git+https://github.com/sterbini/pyHTC.git
 ```
 
 If you want to upgrade it, please issue the following command: 
 ```
-pip install --upgrade --user git+https://github.com/apoyet/pyHTC.git
+pip install --upgrade --user git+https://github.com/sterbini/pyHTC.git
 ```
 
 
