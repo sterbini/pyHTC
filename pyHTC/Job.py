@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import subprocess
 
-
 class JobObj():
     '''
     This is a class to define a single job.
