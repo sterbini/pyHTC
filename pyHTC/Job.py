@@ -22,8 +22,6 @@ class JobObj():
         self.universe = universe
         self.queue = queue
         
-
-        
     def submit2str(self):
         myString = '''executable = {}\n'''.format(self.executable)
         if self.input_file:
@@ -74,7 +72,3 @@ class JobObj():
             print(subprocess.check_output(["condor_q", jobID]))
         else: 
             print(subprocess.check_output(["condor_q"]))
-        
-            
-        
-    
