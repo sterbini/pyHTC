@@ -7,8 +7,11 @@ from pprint import pprint
 
 class StudyObj():
     '''
-    This class is used to define a study to be submitted to HTCondor. This particularly useful in the case of multiple jobs submissions. 
-    A study will be defined by an executable, a submission file and a set of parameters, corresponding to a single job. Each job is instantiated from the Job class.
+    This class is used to define a study to be submitted to HTCondor. 
+    This particularly useful in the case of multiple jobs submissions. 
+    A study will be defined by an executable, a submission file and a set of parameters,
+    corresponding to a single job. 
+    Each job is instantiated from the Job class.
     '''
 
     def __init__(self, name="myStudy", path=os.getcwd(), executable="exe.sh", submit_file="muSubmit.sub", input_dir = "", arguments = "$(input_file)", 
