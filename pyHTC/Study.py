@@ -14,11 +14,14 @@ class StudyObj():
     Each job is instantiated from the Job class.
     '''
 
-    def __init__(self, name="myStudy", path=os.getcwd(), executable="exe.sh", submit_file="muSubmit.sub", input_dir = "", arguments = "$(input_file)", 
+    def __init__(self, name="myStudy", path=os.getcwd(), python_script='', python_dataframe='',python_distribution='',executable="myScript.sh", submit_file="mySubmit.sub", input_dir = "", arguments = "$(input_file)", 
                  output_dir = "output/", error_dir = "error/", log_dir = "log/", job_flavour = "espresso", universe = "vanilla",
                  queue = ""):
         self.name = name
         self.path = path
+        self.python_script = python_script
+        self.python_dataframe = python_dataframe
+        self.python_distribution= python_distribution
         self.executable = executable
         self.submit_file = submit_file
         self.input_dir = input_dir
@@ -28,7 +31,8 @@ class StudyObj():
         self.log_dir = log_dir
         self.job_flavour = job_flavour
         self.universe = universe
-        self.queue = queue        
+        self.queue = queue    
+    
 
         
     def define_study(self, myParam):
@@ -104,6 +108,17 @@ class StudyObj():
         self.parameters['Log'] = self.log_dir + self.name + '.{}.log'.format(self.clusterID)
         self.parameters['Status'] = 'Running'
     
+    def script2str(self):
+        '''
+        This methods creates the string that will be written in a the script.sh. 
+        '''
+        
+        myString = f'''#!/bin/bash
+source  {self.python_distribution}
+python {self.python_script} {self.python_dataframe} $1
+        '''
+        return myString
+    
     def submit2str(self):
         '''
         This methods creates the string that will be writen in a file afterwards. 
@@ -125,11 +140,16 @@ class StudyObj():
         if self.job_flavour:
             myString += '''+JobFlavour = "{}"\n'''.format(self.job_flavour)
             
-        myString += '''queue input_file matching files {0}/input/{1}_*.in'''.format(self.path, self.name)
+        myString += '''queue {}'''.format(self.queue)
         return myString
     
     def submit2file(self, string):
         submit_file = open(self.submit_file, "w")
+        submit_file.write(string)
+        submit_file.close()
+    
+    def script2file(self, string):
+        submit_file = open(self.executable, "w")
         submit_file.write(string)
         submit_file.close()
         
