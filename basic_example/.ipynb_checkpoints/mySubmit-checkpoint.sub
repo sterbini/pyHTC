@@ -1,0 +1,8 @@
+executable = myScript.sh
+arguments = $(ProcId)
+output = output/test.$(ClusterId).$(ProcId).out
+error = error/test.$(ClusterId).$(ProcId).err
+log = log/test.$(ClusterId).log
+universe = vanilla
++JobFlavour = "espresso"
+queue 5
