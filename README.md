@@ -74,6 +74,10 @@ It is importatant to observe that in the body part all job's dependent parameter
 
 The pandas DF could be something like
 ``` python
+import os
+import numpy as np
+import pandas as pd
+
 mypath=os.getcwd()
 python_dataframe=mypath+'/myDF.pkl' 
 python_distribution='/cvmfs/sft.cern.ch/lcg/views/LCG_95apython3/x86_64-centos7-gcc7-opt/setup.sh'
