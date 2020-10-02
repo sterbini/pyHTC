@@ -156,7 +156,7 @@ Then you can launch the simulation with
 ```python
 # Before submitting you should do a minimal check with
 # chmod +x myScript.sh
-# myScript.sh 0
+# ./myScript.sh 0
 myStudy.submit2HTCondor()
 ```
 
