@@ -139,7 +139,7 @@ python {self.python_script} {self.python_dataframe} $1
         if self.universe:
             myString += '''universe = {}\n'''.format(self.universe)
         if self.request_cpus:
-            myString += '''RequestCpus = "{}"\n'''.format(self.request_cpus)
+            myString += '''RequestCpus = {}\n'''.format(self.request_cpus)
         if self.job_flavour:
             myString += '''+JobFlavour = "{}"\n'''.format(self.job_flavour)
             
