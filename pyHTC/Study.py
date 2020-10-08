@@ -16,7 +16,7 @@ class StudyObj():
 
     def __init__(self, name="myStudy", path=os.getcwd(), python_script='', python_dataframe='',python_distribution='',executable="myScript.sh", submit_file="mySubmit.sub", input_dir = "", arguments = "$(input_file)", 
                  output_dir = "output/", error_dir = "error/", log_dir = "log/", job_flavour = "espresso", universe = "vanilla",
-                 queue = ""):
+                 queue = "", request_cpus=1):
         self.name = name
         self.path = path
         self.python_script = python_script
@@ -32,6 +32,7 @@ class StudyObj():
         self.job_flavour = job_flavour
         self.universe = universe
         self.queue = queue    
+	self.request_cpus=request_cpus
     
 
         
@@ -137,6 +138,8 @@ python {self.python_script} {self.python_dataframe} $1
             myString += '''log = {}.$(ClusterId).log\n'''.format(self.log_dir+self.name)
         if self.universe:
             myString += '''universe = {}\n'''.format(self.universe)
+        if self.job_flavour:
+            myString += '''RequestCpus = "{}"\n'''.format(self.request_cpus)
         if self.job_flavour:
             myString += '''+JobFlavour = "{}"\n'''.format(self.job_flavour)
             
