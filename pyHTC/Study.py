@@ -32,7 +32,7 @@ class StudyObj():
         self.job_flavour = job_flavour
         self.universe = universe
         self.queue = queue    
-	self.request_cpus=request_cpus
+        self.request_cpus=request_cpus
     
 
         
@@ -138,7 +138,7 @@ python {self.python_script} {self.python_dataframe} $1
             myString += '''log = {}.$(ClusterId).log\n'''.format(self.log_dir+self.name)
         if self.universe:
             myString += '''universe = {}\n'''.format(self.universe)
-        if self.job_flavour:
+        if self.request_cpus:
             myString += '''RequestCpus = "{}"\n'''.format(self.request_cpus)
         if self.job_flavour:
             myString += '''+JobFlavour = "{}"\n'''.format(self.job_flavour)
